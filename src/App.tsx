@@ -1,15 +1,42 @@
 import { useState } from "react";
 import { TitleScreen } from "./components/TitleScreen";
 import { NovelPlayer } from "./components/NovelPlayer";
+import { chapters } from "./data/story";
 
 type Screen = "title" | "game";
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("title");
+  const [chapterIndex, setChapterIndex] = useState(0);
 
   if (screen === "title") {
-    return <TitleScreen onStart={() => setScreen("game")} />;
+    return (
+      <TitleScreen
+        onStart={(index) => {
+          setChapterIndex(index);
+          setScreen("game");
+        }}
+      />
+    );
   }
 
-  return <NovelPlayer onExit={() => setScreen("title")} />;
+  const chapter = chapters[chapterIndex];
+  const hasNext = chapterIndex < chapters.length - 1;
+
+  return (
+    <NovelPlayer
+      key={chapter.id}
+      chapter={chapter}
+      horrorFromIndex={chapter.id === "02" ? 8 : 6}
+      onExit={() => setScreen("title")}
+      completeLabel={hasNext ? `${chapters[chapterIndex + 1].title} →` : "В меню"}
+      onComplete={() => {
+        if (hasNext) {
+          setChapterIndex((i) => i + 1);
+          return;
+        }
+        setScreen("title");
+      }}
+    />
+  );
 }

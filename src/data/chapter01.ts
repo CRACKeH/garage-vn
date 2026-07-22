@@ -1,25 +1,6 @@
-export type Line = {
-  speaker: string;
-  text: string;
-  kind?: "narrator" | "dialog" | "action";
-};
-
-export type Choice = {
-  id: string;
-  label: string;
-  result: string;
-};
-
-export type Scene = {
-  id: string;
-  image: string;
-  lines: Line[];
-  choices?: Choice[];
-};
+import type { Scene } from "./types";
 
 export const CHAPTER_TITLE = "Глава 1. Гараж";
-export const GAME_TITLE = "ГАРАЖ";
-export const GAME_SUBTITLE = "чёрно-белый треш • визуальная новелла";
 
 export const scenes: Scene[] = [
   {
@@ -59,7 +40,7 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-03-three-friends.png",
     lines: [
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Ну что, пидоры, собрались?",
       },
@@ -69,7 +50,7 @@ export const scenes: Scene[] = [
         text: "Ты первый начал, значит ты главный пидор.",
       },
       {
-        speaker: "Серёга",
+        speaker: "Олег",
         kind: "dialog",
         text: "Классика. Третий лишний — тоже пидор, просто молчаливый.",
       },
@@ -85,9 +66,9 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-04-banter-laugh.png",
     lines: [
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
-        text: "Серёг, ты сегодня какой-то особо радужный.",
+        text: "Олег, ты сегодня какой-то особо радужный.",
       },
       {
         speaker: "Вадим",
@@ -95,12 +76,12 @@ export const scenes: Scene[] = [
         text: "Не трогай его. Он у нас чувствительный.",
       },
       {
-        speaker: "Серёга",
+        speaker: "Олег",
         kind: "dialog",
         text: "Ага. Чувствительный к вашему уровню юмора. Он нулевой.",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Ой, всё, обиделся. Сейчас расплачется и позвонит мужу.",
       },
@@ -121,7 +102,7 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-05-wrong-smile.png",
     lines: [
       {
-        speaker: "Серёга",
+        speaker: "Олег",
         kind: "dialog",
         text: "…Вы правда думаете, что я шучу с вами на равных?",
       },
@@ -133,10 +114,10 @@ export const scenes: Scene[] = [
       {
         speaker: "Вадим",
         kind: "dialog",
-        text: "…Серёг?",
+        text: "…Олег?",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Бля, он серьёзно сейчас?",
       },
@@ -147,14 +128,14 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-06-friends-notice.png",
     lines: [
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Ладно, хватит. Не смешно уже.",
       },
       {
         speaker: "Вадим",
         kind: "dialog",
-        text: "Серёга, моргни два раза, если тебя подменили.",
+        text: "Олег, моргни два раза, если тебя подменили.",
       },
       {
         speaker: "Нарратор",
@@ -162,7 +143,7 @@ export const scenes: Scene[] = [
         text: "Телевизор шумел своим белым фоном. Печка потрескивала. А в комнате внезапно стало мало места для троих.",
       },
       {
-        speaker: "Серёга",
+        speaker: "Олег",
         kind: "dialog",
         text: "Я вас предупреждал. Не называйте меня так… если не готовы к последствиям.",
       },
@@ -178,7 +159,7 @@ export const scenes: Scene[] = [
         text: "Сначала дёрнулась челюсть. Потом — плечи. Тату на руке поплыло, будто рисунок решил сбежать с кожи.",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "СТОП СТОП СТОП—",
       },
@@ -188,7 +169,7 @@ export const scenes: Scene[] = [
         text: "Это розыгрыш. Скажи, что это розыгрыш.",
       },
       {
-        speaker: "Серёга",
+        speaker: "Олег",
         kind: "dialog",
         text: "Вы сами меня наговорили.",
       },
@@ -209,14 +190,14 @@ export const scenes: Scene[] = [
         text: "Кресло опрокинулось. Пол треснул. Буржуйка рядом с ним выглядела как игрушка из «Детского мира».",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Вадим. Дверь.",
       },
       {
         speaker: "Вадим",
         kind: "dialog",
-        text: "Я… ноги не слушаются, Макс.",
+        text: "Я… ноги не слушаются, Женек.",
       },
     ],
   },
@@ -225,7 +206,7 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-09-monster-reveal.png",
     lines: [
       {
-        speaker: "Серёга-Монстр",
+        speaker: "Олег-Монстр",
         kind: "dialog",
         text: "Ну что, пидоры… Кто тут у нас теперь «в шутку»?",
       },
@@ -237,10 +218,10 @@ export const scenes: Scene[] = [
       {
         speaker: "Вадим",
         kind: "dialog",
-        text: "Это… это всё ещё Серёга?",
+        text: "Это… это всё ещё Олег?",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Если да — я больше никогда никого так не назову. Клянусь на пепельнице.",
       },
@@ -251,12 +232,12 @@ export const scenes: Scene[] = [
     image: "/chapter01/ch01-10-cliffhanger.png",
     lines: [
       {
-        speaker: "Серёга-Монстр",
+        speaker: "Олег-Монстр",
         kind: "dialog",
         text: "Не убегайте. Мы же друзья. А друзья… остаются на ночь.",
       },
       {
-        speaker: "Макс",
+        speaker: "Женек",
         kind: "dialog",
         text: "Вадим. Если выживем — я тебе должен тысячу.",
       },
@@ -288,7 +269,7 @@ export const scenes: Scene[] = [
         id: "talk",
         label: "Поговорить «по-человечески»",
         result:
-          "«Серёг, мы же друзья…» — начали вы. Он улыбнулся шире. Это был плохой план. Глава 1 окончена.",
+          "«Олег, мы же друзья…» — начали вы. Он улыбнулся шире. Это был плохой план. Глава 1 окончена.",
       },
     ],
   },

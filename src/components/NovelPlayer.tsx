@@ -1,12 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { scenes } from "../data/chapter01";
+import type { Chapter } from "../data/types";
 import { Typewriter } from "./Typewriter";
 
 type Props = {
+  chapter: Chapter;
   onExit: () => void;
+  onComplete?: () => void;
+  completeLabel?: string;
+  horrorFromIndex?: number;
 };
 
-export function NovelPlayer({ onExit }: Props) {
+export function NovelPlayer({
+  chapter,
+  onExit,
+  onComplete,
+  completeLabel = "В меню",
+  horrorFromIndex = 6,
+}: Props) {
+  const scenes = chapter.scenes;
   const [sceneIndex, setSceneIndex] = useState(0);
   const [lineIndex, setLineIndex] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
@@ -18,6 +29,7 @@ export function NovelPlayer({ onExit }: Props) {
   const scene = scenes[sceneIndex];
   const line = scene.lines[lineIndex];
   const atLastLine = lineIndex >= scene.lines.length - 1;
+  const atLastScene = sceneIndex >= scenes.length - 1;
   const showChoices = Boolean(scene.choices && atLastLine && typingDone && !ending);
 
   const progress = useMemo(() => {
@@ -26,11 +38,16 @@ export function NovelPlayer({ onExit }: Props) {
       .slice(0, sceneIndex)
       .reduce((sum, s) => sum + s.lines.length, 0);
     return Math.round(((done + lineIndex + (typingDone ? 1 : 0)) / totalLines) * 100);
-  }, [lineIndex, sceneIndex, typingDone]);
+  }, [lineIndex, sceneIndex, scenes, typingDone]);
+
+  const finish = useCallback(() => {
+    if (onComplete) onComplete();
+    else onExit();
+  }, [onComplete, onExit]);
 
   const advance = useCallback(() => {
     if (ending) {
-      onExit();
+      finish();
       return;
     }
     if (showChoices) return;
@@ -48,14 +65,14 @@ export function NovelPlayer({ onExit }: Props) {
       return;
     }
 
-    if (sceneIndex < scenes.length - 1) {
+    if (!atLastScene) {
       setSceneIndex((i) => i + 1);
       setLineIndex(0);
       setTypingDone(false);
       setSkipType(false);
       setImageReady(false);
     }
-  }, [atLastLine, ending, onExit, sceneIndex, showChoices, typingDone]);
+  }, [atLastLine, atLastScene, ending, finish, showChoices, typingDone]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -78,7 +95,7 @@ export function NovelPlayer({ onExit }: Props) {
           ? "speaker monster"
           : "speaker";
 
-  const horror = sceneIndex >= 6;
+  const horror = sceneIndex >= horrorFromIndex;
 
   return (
     <div
@@ -98,6 +115,7 @@ export function NovelPlayer({ onExit }: Props) {
         >
           ← в меню
         </button>
+        <span className="chapter-chip">{chapter.title}</span>
         <div className="progress-wrap" aria-label={`Прогресс ${progress}%`}>
           <div className="progress-bar" style={{ width: `${progress}%` }} />
         </div>
@@ -126,7 +144,7 @@ export function NovelPlayer({ onExit }: Props) {
         <div className={speakerClass}>{line.speaker}</div>
         <p className={`dialogue-text kind-${line.kind ?? "dialog"}`}>
           <Typewriter
-            key={`${scene.id}-${lineIndex}`}
+            key={`${chapter.id}-${scene.id}-${lineIndex}`}
             text={line.text}
             active={!skipType}
             onDone={() => setTypingDone(true)}
@@ -165,10 +183,10 @@ export function NovelPlayer({ onExit }: Props) {
               className="btn-primary"
               onClick={(e) => {
                 e.stopPropagation();
-                onExit();
+                finish();
               }}
             >
-              В меню
+              {completeLabel}
             </button>
           </div>
         )}

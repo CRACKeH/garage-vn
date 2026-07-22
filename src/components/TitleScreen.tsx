@@ -1,7 +1,7 @@
-import { CHAPTER_TITLE, GAME_SUBTITLE, GAME_TITLE } from "../data/chapter01";
+import { chapters, GAME_SUBTITLE, GAME_TITLE } from "../data/story";
 
 type Props = {
-  onStart: () => void;
+  onStart: (chapterIndex: number) => void;
 };
 
 export function TitleScreen({ onStart }: Props) {
@@ -13,14 +13,22 @@ export function TitleScreen({ onStart }: Props) {
         <h1 className="game-title">{GAME_TITLE}</h1>
         <p className="game-subtitle">{GAME_SUBTITLE}</p>
         <div className="title-rule" aria-hidden />
-        <p className="chapter-label">{CHAPTER_TITLE}</p>
         <p className="title-blurb">
           Трое друзей. Один гараж. Шутки, которые лучше не повторять слишком
           часто.
         </p>
-        <button type="button" className="btn-primary" onClick={onStart}>
-          Начать главу
-        </button>
+        <div className="chapter-list">
+          {chapters.map((chapter, index) => (
+            <button
+              key={chapter.id}
+              type="button"
+              className={index === 0 ? "btn-primary" : "choice-btn chapter-start"}
+              onClick={() => onStart(index)}
+            >
+              {index === 0 ? "Начать с главы 1" : chapter.title}
+            </button>
+          ))}
+        </div>
         <p className="title-hint">клик / пробел / → — дальше</p>
       </div>
     </div>

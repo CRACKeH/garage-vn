@@ -224,11 +224,30 @@ button {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto auto 1fr auto;
   gap: 0.75rem;
   align-items: center;
   padding: 0.75rem 1rem;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent);
+}
+
+.chapter-chip {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--paper-dim);
+  white-space: nowrap;
+}
+
+.chapter-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0 auto 0.5rem;
+  width: min(100%, 320px);
+}
+
+.chapter-start {
+  text-align: center;
 }
 
 .btn-ghost {
