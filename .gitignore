@@ -3,5 +3,5 @@ dist
 .DS_Store
 *.local
 refs/
-chapter01/
-chapter02/
+/chapter01/
+/chapter02/
