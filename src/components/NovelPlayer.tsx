@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Chapter } from "../data/types";
+import { assetUrl } from "../assetUrl";
 import { Typewriter } from "./Typewriter";
 
 type Props = {
@@ -127,7 +128,7 @@ export function NovelPlayer({
       <div className={`cg-stage${imageReady ? " ready" : ""}`}>
         <img
           key={scene.image}
-          src={scene.image}
+          src={assetUrl(scene.image)}
           alt=""
           className="cg-image"
           onLoad={() => setImageReady(true)}
