@@ -70,8 +70,21 @@ export function NovelPlayer({
 
   const progress = useMemo(() => {
     const total = Math.max(chapter.nodes.length, 1);
-    return Math.min(100, Math.round(((visited + (typingDone ? 0.5 : 0)) / total) * 100));
-  }, [chapter.nodes.length, typingDone, visited]);
+    const nodeIndex = Math.max(
+      0,
+      chapter.nodes.findIndex((n) => n.id === nodeId),
+    );
+    // Monotonic: when a line finishes, +1; advancing to the next line
+    // bumps lineIndex while typingDone resets — net stays flat, never goes back.
+    const linePart =
+      phrases.length > 0
+        ? (lineIndex + (typingDone ? 1 : 0)) / phrases.length
+        : typingDone
+          ? 1
+          : 0;
+    const raw = ((nodeIndex + Math.min(linePart, 0.999)) / total) * 100;
+    return Math.min(100, Math.round(raw));
+  }, [chapter.nodes, lineIndex, nodeId, phrases.length, typingDone]);
 
   useEffect(() => {
     onVarsChange?.(vars, nodeId);

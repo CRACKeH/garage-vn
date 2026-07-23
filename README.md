@@ -1,6 +1,6 @@
 # Гараж — визуальная новелла
 
-Чёрно-белая треш-новелла. Главы 1–3.
+Чёрно-белая треш-новелла. Главы 1–5.
 
 ## Играть онлайн (GitHub Pages)
 
@@ -48,12 +48,12 @@ npx gh-pages -d dist -b gh-pages
 
 ## Структура
 
-- `public/chapter01|02|03/` — CG
+- `public/chapter01|02|03|04|05/` — CG
 - `public/ambience/` — фоновые звуки по настроению сцены (CC0, см. `SOURCES.md`)
 - `src/data/chapter*.ts` — тексты (легаси линейный формат)
 - `src/data/runtimeTypes.ts` — runtime-граф (ноды, переменные, ветки)
 - `src/editor/` — Scenario Studio
-- `script/` — сценарий (markdown-драфты)
+- `script/` — сценарий (markdown-драфты) + CG-промпты
 
 ## Амбиент
 

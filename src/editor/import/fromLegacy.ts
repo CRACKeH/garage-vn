@@ -1,6 +1,8 @@
 import { scenes as ch01, CHAPTER_TITLE as t01 } from "../../data/chapter01";
 import { scenes as ch02, CHAPTER_02_TITLE as t02 } from "../../data/chapter02";
 import { scenes as ch03, CHAPTER_03_TITLE as t03 } from "../../data/chapter03";
+import { scenes as ch04, CHAPTER_04_TITLE as t04 } from "../../data/chapter04";
+import { scenes as ch05, CHAPTER_05_TITLE as t05 } from "../../data/chapter05";
 import type { Chapter, Scene } from "../../data/types";
 import { uid } from "../model/ids";
 import {
@@ -107,6 +109,8 @@ export function createProjectFromLegacy(): Project {
     { id: "01", title: t01, scenes: ch01 },
     { id: "02", title: t02, scenes: ch02 },
     { id: "03", title: t03, scenes: ch03 },
+    { id: "04", title: t04, scenes: ch04 },
+    { id: "05", title: t05, scenes: ch05 },
   ];
 
   const chapters = legacy.map((c) => chapterFromLegacy(c, charMap));

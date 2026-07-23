@@ -1,6 +1,6 @@
 import type { Scene } from "./types";
 
-export const CHAPTER_02_TITLE = "Глава 2. Похмелье";
+export const CHAPTER_02_TITLE = "Глава 2. Сон";
 
 export const scenes: Scene[] = [
   {
