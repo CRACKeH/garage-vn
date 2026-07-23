@@ -27,7 +27,7 @@ export default function App() {
     <NovelPlayer
       key={chapter.id}
       chapter={chapter}
-      horrorFromIndex={chapter.id === "02" ? 8 : 6}
+      horrorFromIndex={chapter.id === "02" ? 8 : chapter.id === "03" ? 6 : 6}
       onExit={() => setScreen("title")}
       completeLabel={hasNext ? `${chapters[chapterIndex + 1].title} →` : "В меню"}
       onComplete={() => {

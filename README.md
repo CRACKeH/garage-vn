@@ -19,7 +19,7 @@ npm run dev
 
 ## Структура
 
-- `public/chapter01/`, `public/chapter02/` — CG кадры
-- `src/data/chapter01.ts`, `src/data/chapter02.ts` — тексты сцен
+- `public/chapter01/`, `public/chapter02/`, `public/chapter03/` — CG кадры
+- `src/data/chapter01.ts`, `chapter02.ts`, `chapter03.ts` — тексты сцен
 - `src/components/` — UI новеллы
 - `script/` — литературный сценарий
