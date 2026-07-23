@@ -342,6 +342,74 @@ button {
   user-select: none;
 }
 
+.cg-placeholder {
+  background: #111;
+}
+
+.novel-screen.anim-pulse .cg-image {
+  animation: cg-pulse 2.4s ease-in-out infinite;
+}
+
+.novel-screen.anim-shake .cg-image {
+  animation: cg-shake 0.45s linear infinite;
+}
+
+.novel-screen.anim-glitch .cg-image {
+  animation: cg-glitch 1.2s steps(2) infinite;
+}
+
+.novel-screen.anim-horrorFlicker .cg-image {
+  animation: cg-horror 2.8s ease-in-out infinite;
+}
+
+@keyframes cg-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes cg-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 1px);
+  }
+  75% {
+    transform: translate(2px, -1px);
+  }
+}
+
+@keyframes cg-glitch {
+  0%,
+  100% {
+    filter: grayscale(1) contrast(1.05);
+    transform: none;
+  }
+  50% {
+    filter: grayscale(1) contrast(1.4) hue-rotate(20deg);
+    transform: translateX(2px);
+  }
+}
+
+@keyframes cg-horror {
+  0%,
+  100% {
+    filter: grayscale(1) contrast(1.1) brightness(0.95);
+  }
+  40% {
+    filter: grayscale(1) contrast(1.35) brightness(1.05);
+  }
+  42% {
+    filter: grayscale(1) contrast(0.8) brightness(0.7);
+  }
+}
+
 .cg-vignette {
   position: absolute;
   inset: 0;

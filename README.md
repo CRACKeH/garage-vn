@@ -15,6 +15,12 @@ npm install
 npm run dev
 ```
 
+Игра: http://localhost:5173/garage-vn/  
+**Scenario Studio** (только локально, не деплоится на Pages): http://localhost:5173/garage-vn/editor.html  
+или `npm run editor`
+
+В Studio можно строить главы → сцены → ноды, задавать переменные (bool/select), условия на фразах/кнопках, playtest и экспорт в `.garage.json` / TypeScript.
+
 ## Деплой на GitHub Pages
 
 Важно: Pages должен отдавать **сборку** (`dist`), а не исходники с `master`.
@@ -44,8 +50,10 @@ npx gh-pages -d dist -b gh-pages
 
 - `public/chapter01|02|03/` — CG
 - `public/ambience/` — фоновые звуки по настроению сцены (CC0, см. `SOURCES.md`)
-- `src/data/chapter*.ts` — тексты
-- `script/` — сценарий
+- `src/data/chapter*.ts` — тексты (легаси линейный формат)
+- `src/data/runtimeTypes.ts` — runtime-граф (ноды, переменные, ветки)
+- `src/editor/` — Scenario Studio
+- `script/` — сценарий (markdown-драфты)
 
 ## Амбиент
 

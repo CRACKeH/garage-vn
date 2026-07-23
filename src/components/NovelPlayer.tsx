@@ -1,51 +1,117 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { setAmbience } from "../audio/ambience";
+import type { Mood } from "../data/types";
+import {
+  initVars,
+  visibleButtons,
+  visiblePhrases,
+  type RuntimeChapter,
+  type RuntimeNode,
+  type VarState,
+} from "../data/runtimeTypes";
+import { toRuntimeChapter } from "../data/legacyToRuntime";
 import type { Chapter } from "../data/types";
 import { assetUrl } from "../assetUrl";
 import { Typewriter } from "./Typewriter";
 
 type Props = {
-  chapter: Chapter;
+  chapter: Chapter | RuntimeChapter;
   onExit: () => void;
   onComplete?: () => void;
   completeLabel?: string;
   horrorFromIndex?: number;
+  /** Optional live vars mirror for editor playtest */
+  onVarsChange?: (vars: VarState, nodeId: string) => void;
 };
 
+function findNode(chapter: RuntimeChapter, id: string): RuntimeNode | undefined {
+  return chapter.nodes.find((n) => n.id === id);
+}
+
 export function NovelPlayer({
-  chapter,
+  chapter: chapterInput,
   onExit,
   onComplete,
   completeLabel = "В меню",
   horrorFromIndex = 6,
+  onVarsChange,
 }: Props) {
-  const scenes = chapter.scenes;
-  const [sceneIndex, setSceneIndex] = useState(0);
+  const chapter = useMemo(() => toRuntimeChapter(chapterInput), [chapterInput]);
+  const [nodeId, setNodeId] = useState(chapter.entryNodeId);
   const [lineIndex, setLineIndex] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
   const [skipType, setSkipType] = useState(false);
   const [choiceId, setChoiceId] = useState<string | null>(null);
   const [ending, setEnding] = useState<string | null>(null);
   const [imageReady, setImageReady] = useState(false);
+  const [vars, setVars] = useState<VarState>(() => initVars(chapter.variables));
+  const [visited, setVisited] = useState(0);
 
-  const scene = scenes[sceneIndex];
-  const line = scene.lines[lineIndex];
-  const atLastLine = lineIndex >= scene.lines.length - 1;
-  const atLastScene = sceneIndex >= scenes.length - 1;
-  const showChoices = Boolean(scene.choices && atLastLine && typingDone && !ending);
+  const node = findNode(chapter, nodeId);
+  const phrases = useMemo(
+    () => (node ? visiblePhrases(node, vars) : []),
+    [node, vars],
+  );
+  const line = phrases[lineIndex];
+  const buttons = useMemo(
+    () => (node ? visibleButtons(node, vars) : []),
+    [node, vars],
+  );
+  const atLastLine = phrases.length === 0 || lineIndex >= phrases.length - 1;
+  const showChoices = Boolean(
+    buttons.length > 0 && atLastLine && (typingDone || phrases.length === 0) && !ending,
+  );
+
+  useEffect(() => {
+    if (phrases.length === 0) {
+      setTypingDone(true);
+    }
+  }, [phrases.length, nodeId]);
 
   const progress = useMemo(() => {
-    const totalLines = scenes.reduce((sum, s) => sum + s.lines.length, 0);
-    const done = scenes
-      .slice(0, sceneIndex)
-      .reduce((sum, s) => sum + s.lines.length, 0);
-    return Math.round(((done + lineIndex + (typingDone ? 1 : 0)) / totalLines) * 100);
-  }, [lineIndex, sceneIndex, scenes, typingDone]);
+    const total = Math.max(chapter.nodes.length, 1);
+    return Math.min(100, Math.round(((visited + (typingDone ? 0.5 : 0)) / total) * 100));
+  }, [chapter.nodes.length, typingDone, visited]);
+
+  useEffect(() => {
+    onVarsChange?.(vars, nodeId);
+  }, [vars, nodeId, onVarsChange]);
 
   const finish = useCallback(() => {
     if (onComplete) onComplete();
     else onExit();
   }, [onComplete, onExit]);
+
+  const goToNext = useCallback(
+    (next: string, resultText?: string) => {
+      if (next === "__end__" || resultText) {
+        setEnding(resultText ?? "Глава окончена.");
+        return;
+      }
+      if (next.startsWith("__chapter__:")) {
+        finish();
+        return;
+      }
+      if (next.startsWith("__scene__:")) {
+        // unresolved scene jump — treat as end
+        setEnding("Переход к сцене недоступен в этом билде.");
+        return;
+      }
+      const target = findNode(chapter, next);
+      if (!target) {
+        setEnding("Следующая нода не найдена.");
+        return;
+      }
+      setNodeId(next);
+      setLineIndex(0);
+      setTypingDone(false);
+      setSkipType(false);
+      setChoiceId(null);
+      setImageReady(false);
+      setVisited((v) => v + 1);
+    },
+    [chapter, finish],
+  );
 
   const advance = useCallback(() => {
     if (ending) {
@@ -53,32 +119,26 @@ export function NovelPlayer({
       return;
     }
     if (showChoices) return;
-
     if (!typingDone) {
       setSkipType(true);
       setTypingDone(true);
       return;
     }
-
     if (!atLastLine) {
       setLineIndex((i) => i + 1);
       setTypingDone(false);
       setSkipType(false);
       return;
     }
-
-    if (!atLastScene) {
-      setSceneIndex((i) => i + 1);
-      setLineIndex(0);
-      setTypingDone(false);
-      setSkipType(false);
-      setImageReady(false);
+    if (node?.next) {
+      goToNext(node.next);
     }
-  }, [atLastLine, atLastScene, ending, finish, showChoices, typingDone]);
+  }, [atLastLine, ending, finish, goToNext, node?.next, showChoices, typingDone]);
 
   useEffect(() => {
-    setAmbience(scene.mood ?? "cozy");
-  }, [scene.mood]);
+    const mood = (node?.mood as Mood | undefined) ?? "cozy";
+    setAmbience(mood);
+  }, [node?.mood]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -92,20 +152,39 @@ export function NovelPlayer({
     return () => window.removeEventListener("keydown", onKey);
   }, [advance, onExit]);
 
-  const speakerClass =
-    line.kind === "narrator"
-      ? "speaker narrator"
-      : line.kind === "action"
-        ? "speaker action"
-        : line.speaker.includes("Монстр")
-          ? "speaker monster"
-          : "speaker";
+  if (!node) {
+    return (
+      <div className="screen novel-screen">
+        <p>Нода не найдена.</p>
+        <button type="button" className="btn-primary" onClick={onExit}>
+          Назад
+        </button>
+      </div>
+    );
+  }
 
-  const horror = sceneIndex >= horrorFromIndex;
+  const speakerClass =
+    !line
+      ? "speaker"
+      : line.kind === "narrator"
+        ? "speaker narrator"
+        : line.kind === "action"
+          ? "speaker action"
+          : line.speaker.includes("Монстр")
+            ? "speaker monster"
+            : "speaker";
+
+  const horror =
+    visited >= horrorFromIndex ||
+    node.animation === "horrorFlicker" ||
+    node.mood === "horror" ||
+    node.mood === "panic";
+
+  const animClass = node.animation && node.animation !== "none" ? ` anim-${node.animation}` : "";
 
   return (
     <div
-      className={`screen novel-screen${horror ? " horror" : ""}`}
+      className={`screen novel-screen${horror ? " horror" : ""}${animClass}`}
       onClick={advance}
       role="presentation"
     >
@@ -125,20 +204,22 @@ export function NovelPlayer({
         <div className="progress-wrap" aria-label={`Прогресс ${progress}%`}>
           <div className="progress-bar" style={{ width: `${progress}%` }} />
         </div>
-        <span className="scene-counter">
-          {sceneIndex + 1}/{scenes.length}
-        </span>
+        <span className="scene-counter">{node.name ?? node.id}</span>
       </header>
 
       <div className={`cg-stage${imageReady ? " ready" : ""}`}>
-        <img
-          key={scene.image}
-          src={assetUrl(scene.image)}
-          alt=""
-          className="cg-image"
-          onLoad={() => setImageReady(true)}
-          draggable={false}
-        />
+        {node.image ? (
+          <img
+            key={node.image}
+            src={assetUrl(node.image)}
+            alt=""
+            className="cg-image"
+            onLoad={() => setImageReady(true)}
+            draggable={false}
+          />
+        ) : (
+          <div className="cg-image cg-placeholder" />
+        )}
         <div className="cg-vignette" aria-hidden />
       </div>
 
@@ -147,24 +228,35 @@ export function NovelPlayer({
         onClick={(e) => e.stopPropagation()}
         role="presentation"
       >
-        <div className={speakerClass}>{line.speaker}</div>
-        <p className={`dialogue-text kind-${line.kind ?? "dialog"}`}>
-          <Typewriter
-            key={`${chapter.id}-${scene.id}-${lineIndex}`}
-            text={line.text}
-            active={!skipType}
-            onDone={() => setTypingDone(true)}
-          />
-          {typingDone && !showChoices && !ending && (
+        {line ? (
+          <>
+            <div className={speakerClass}>{line.speaker}</div>
+            <p className={`dialogue-text kind-${line.kind ?? "dialog"}`}>
+              <Typewriter
+                key={`${chapter.id}-${node.id}-${lineIndex}`}
+                text={line.text}
+                active={!skipType}
+                onDone={() => setTypingDone(true)}
+              />
+              {typingDone && !showChoices && !ending && (
+                <span className="continue-caret" aria-hidden>
+                  ▼
+                </span>
+              )}
+            </p>
+          </>
+        ) : (
+          <p className="dialogue-text kind-narrator">
+            {typingDone ? null : null}
             <span className="continue-caret" aria-hidden>
               ▼
             </span>
-          )}
-        </p>
+          </p>
+        )}
 
-        {showChoices && scene.choices && (
+        {showChoices && (
           <div className="choices">
-            {scene.choices.map((choice) => (
+            {buttons.map((choice) => (
               <button
                 key={choice.id}
                 type="button"
@@ -172,7 +264,10 @@ export function NovelPlayer({
                 onClick={(e) => {
                   e.stopPropagation();
                   setChoiceId(choice.id);
-                  setEnding(choice.result);
+                  if (choice.set) {
+                    setVars((v) => ({ ...v, ...choice.set }));
+                  }
+                  goToNext(choice.next, choice.resultText);
                 }}
               >
                 {choice.label}
@@ -197,9 +292,22 @@ export function NovelPlayer({
           </div>
         )}
 
-        {!showChoices && !ending && (
+        {!showChoices && !ending && (node.next || !atLastLine || !typingDone) && (
           <button type="button" className="btn-advance" onClick={advance}>
             Далее
+          </button>
+        )}
+
+        {!showChoices && !ending && !node.next && atLastLine && typingDone && buttons.length === 0 && (
+          <button
+            type="button"
+            className="btn-advance"
+            onClick={(e) => {
+              e.stopPropagation();
+              setEnding("Глава окончена.");
+            }}
+          >
+            Завершить
           </button>
         )}
       </div>

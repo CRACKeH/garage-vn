@@ -7,13 +7,19 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && npx --yes gh-pages@6 -d dist -b gh-pages"
+    "deploy": "npm run build && npx --yes gh-pages@6 -d dist -b gh-pages",
+    "editor": "vite --open /editor.html"
   },
   "dependencies": {
+    "@xyflow/react": "^12.11.2",
+    "idb": "^8.0.3",
+    "immer": "^11.1.15",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@types/node": "^26.1.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
