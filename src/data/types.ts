@@ -1,3 +1,12 @@
+export type Mood =
+  | "alley"
+  | "cozy"
+  | "hangover"
+  | "unease"
+  | "horror"
+  | "panic"
+  | "haze";
+
 export type Line = {
   speaker: string;
   text: string;
@@ -13,6 +22,8 @@ export type Choice = {
 export type Scene = {
   id: string;
   image: string;
+  /** Background ambience bed for this scene. */
+  mood?: Mood;
   lines: Line[];
   choices?: Choice[];
 };

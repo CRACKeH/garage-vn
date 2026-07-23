@@ -22,8 +22,7 @@ export function TitleScreen({ onStart }: Props) {
         <p className="game-subtitle">{GAME_SUBTITLE}</p>
         <div className="title-rule" aria-hidden />
         <p className="title-blurb">
-          Трое друзей. Один гараж. Шутки, которые лучше не повторять слишком
-          часто.
+          Мистические приключения друзей в далеком от нас мире.
         </p>
         <div className="chapter-list">
           {chapters.map((chapter, index) => (

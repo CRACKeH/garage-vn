@@ -6,6 +6,7 @@ export const scenes: Scene[] = [
   {
     id: "01",
     image: "/chapter01/ch01-01-garage-alley.png",
+    mood: "alley",
     lines: [
       {
         speaker: "Нарратор",
@@ -22,6 +23,7 @@ export const scenes: Scene[] = [
   {
     id: "02",
     image: "/chapter01/ch01-02-garage-interior.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Нарратор",
@@ -38,6 +40,7 @@ export const scenes: Scene[] = [
   {
     id: "03",
     image: "/chapter01/ch01-03-three-friends.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Женек",
@@ -64,6 +67,7 @@ export const scenes: Scene[] = [
   {
     id: "04",
     image: "/chapter01/ch01-04-banter-laugh.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Женек",
@@ -100,6 +104,7 @@ export const scenes: Scene[] = [
   {
     id: "05",
     image: "/chapter01/ch01-05-wrong-smile.png",
+    mood: "unease",
     lines: [
       {
         speaker: "Олег",
@@ -126,6 +131,7 @@ export const scenes: Scene[] = [
   {
     id: "06",
     image: "/chapter01/ch01-06-friends-notice.png",
+    mood: "unease",
     lines: [
       {
         speaker: "Женек",
@@ -152,6 +158,7 @@ export const scenes: Scene[] = [
   {
     id: "07",
     image: "/chapter01/ch01-07-transform-start.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Нарратор",
@@ -178,6 +185,7 @@ export const scenes: Scene[] = [
   {
     id: "08",
     image: "/chapter01/ch01-08-transform-grow.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Нарратор",
@@ -204,6 +212,7 @@ export const scenes: Scene[] = [
   {
     id: "09",
     image: "/chapter01/ch01-09-monster-reveal.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Олег-Монстр",
@@ -230,6 +239,7 @@ export const scenes: Scene[] = [
   {
     id: "10",
     image: "/chapter01/ch01-10-cliffhanger.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Олег-Монстр",

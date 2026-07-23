@@ -6,6 +6,7 @@ export const scenes: Scene[] = [
   {
     id: "01",
     image: "/chapter03/ch03-01-door-shadow.png",
+    mood: "panic",
     lines: [
       {
         speaker: "Нарратор",
@@ -22,6 +23,7 @@ export const scenes: Scene[] = [
   {
     id: "02",
     image: "/chapter03/ch03-02-armed-screams.png",
+    mood: "panic",
     lines: [
       {
         speaker: "Олег",
@@ -48,6 +50,7 @@ export const scenes: Scene[] = [
   {
     id: "03",
     image: "/chapter03/ch03-03-tyomka-reveal.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Нарратор",
@@ -64,6 +67,7 @@ export const scenes: Scene[] = [
   {
     id: "04",
     image: "/chapter03/ch03-04-toss-tyomka.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Нарратор",
@@ -85,6 +89,7 @@ export const scenes: Scene[] = [
   {
     id: "05",
     image: "/chapter03/ch03-05-stoned-dji.png",
+    mood: "haze",
     lines: [
       {
         speaker: "Нарратор",
@@ -106,6 +111,7 @@ export const scenes: Scene[] = [
   {
     id: "06",
     image: "/chapter03/ch03-06-vadim-51-tracks.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Вадим",
@@ -122,6 +128,7 @@ export const scenes: Scene[] = [
   {
     id: "07",
     image: "/chapter03/ch03-07-bloody-silence.png",
+    mood: "horror",
     lines: [
       {
         speaker: "Нарратор",
@@ -143,6 +150,7 @@ export const scenes: Scene[] = [
   {
     id: "08",
     image: "/chapter03/ch03-08-just-kidding.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Вадим",
@@ -169,6 +177,7 @@ export const scenes: Scene[] = [
   {
     id: "09",
     image: "/chapter03/ch03-09-zhenek-mars.png",
+    mood: "haze",
     lines: [
       {
         speaker: "Нарратор",
@@ -190,6 +199,7 @@ export const scenes: Scene[] = [
   {
     id: "10",
     image: "/chapter03/ch03-10-oleg-tyomka-trip.png",
+    mood: "haze",
     lines: [
       {
         speaker: "Нарратор",

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { setAmbience } from "../audio/ambience";
 import type { Chapter } from "../data/types";
 import { assetUrl } from "../assetUrl";
 import { Typewriter } from "./Typewriter";
@@ -74,6 +75,10 @@ export function NovelPlayer({
       setImageReady(false);
     }
   }, [atLastLine, atLastScene, ending, finish, showChoices, typingDone]);
+
+  useEffect(() => {
+    setAmbience(scene.mood ?? "cozy");
+  }, [scene.mood]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

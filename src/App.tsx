@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setAmbience, unlockAmbience } from "./audio/ambience";
 import { startBgMusic } from "./audio/bgMusic";
 import { TitleScreen } from "./components/TitleScreen";
 import { NovelPlayer } from "./components/NovelPlayer";
@@ -14,6 +15,7 @@ export default function App() {
     return (
       <TitleScreen
         onStart={(index) => {
+          unlockAmbience();
           startBgMusic();
           setChapterIndex(index);
           setScreen("game");
@@ -30,13 +32,17 @@ export default function App() {
       key={chapter.id}
       chapter={chapter}
       horrorFromIndex={chapter.id === "02" ? 8 : chapter.id === "03" ? 6 : 6}
-      onExit={() => setScreen("title")}
+      onExit={() => {
+        setAmbience("alley");
+        setScreen("title");
+      }}
       completeLabel={hasNext ? `${chapters[chapterIndex + 1].title} →` : "В меню"}
       onComplete={() => {
         if (hasNext) {
           setChapterIndex((i) => i + 1);
           return;
         }
+        setAmbience("alley");
         setScreen("title");
       }}
     />

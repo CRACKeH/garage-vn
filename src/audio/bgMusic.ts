@@ -4,7 +4,8 @@ const TRACKS = ["/music/tihiy-les-1.mp3", "/music/tihiy-les-2.mp3"] as const;
 
 const GAP_MIN_MS = 1000;
 const GAP_MAX_MS = 3000;
-const VOLUME = 0.45;
+/** Quiet underscore under scene ambience (ambience carries the mood). */
+const VOLUME = 0.12;
 
 let audio: HTMLAudioElement | null = null;
 let trackIndex = 0;

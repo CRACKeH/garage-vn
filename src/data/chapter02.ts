@@ -6,6 +6,7 @@ export const scenes: Scene[] = [
   {
     id: "01",
     image: "/chapter02/ch02-01-vadim-wakes.png",
+    mood: "hangover",
     lines: [
       {
         speaker: "Нарратор",
@@ -27,6 +28,7 @@ export const scenes: Scene[] = [
   {
     id: "02",
     image: "/chapter02/ch02-02-waking-him.png",
+    mood: "hangover",
     lines: [
       {
         speaker: "Женек",
@@ -48,6 +50,7 @@ export const scenes: Scene[] = [
   {
     id: "03",
     image: "/chapter02/ch02-03-bottle-aftermath.png",
+    mood: "hangover",
     lines: [
       {
         speaker: "Нарратор",
@@ -69,6 +72,7 @@ export const scenes: Scene[] = [
   {
     id: "04",
     image: "/chapter02/ch02-04-scared-story.png",
+    mood: "unease",
     lines: [
       {
         speaker: "Вадим",
@@ -90,6 +94,7 @@ export const scenes: Scene[] = [
   {
     id: "05",
     image: "/chapter02/ch02-05-dream-monster.png",
+    mood: "unease",
     lines: [
       {
         speaker: "Вадим",
@@ -106,6 +111,7 @@ export const scenes: Scene[] = [
   {
     id: "06",
     image: "/chapter02/ch02-06-gey-exchange.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Олег",
@@ -122,6 +128,7 @@ export const scenes: Scene[] = [
   {
     id: "07",
     image: "/chapter02/ch02-07-all-laugh.png",
+    mood: "cozy",
     lines: [
       {
         speaker: "Нарратор",
@@ -143,6 +150,7 @@ export const scenes: Scene[] = [
   {
     id: "08",
     image: "/chapter02/ch02-08-zhenek-rant.png",
+    mood: "unease",
     lines: [
       {
         speaker: "Женек",
@@ -164,6 +172,7 @@ export const scenes: Scene[] = [
   {
     id: "09",
     image: "/chapter02/ch02-09-grab-weapons.png",
+    mood: "panic",
     lines: [
       {
         speaker: "…",
@@ -185,6 +194,7 @@ export const scenes: Scene[] = [
   {
     id: "10",
     image: "/chapter02/ch02-10-zhenek-to-door.png",
+    mood: "panic",
     lines: [
       {
         speaker: "Женек",
