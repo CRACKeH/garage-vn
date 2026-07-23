@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { startBgMusic } from "./audio/bgMusic";
 import { TitleScreen } from "./components/TitleScreen";
 import { NovelPlayer } from "./components/NovelPlayer";
 import { chapters } from "./data/story";
@@ -13,6 +14,7 @@ export default function App() {
     return (
       <TitleScreen
         onStart={(index) => {
+          startBgMusic();
           setChapterIndex(index);
           setScreen("game");
         }}
