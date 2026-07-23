@@ -1,25 +1,37 @@
 # Гараж — визуальная новелла
 
-Чёрно-белая треш-новелла. Глава 1: трое друзей в гараже.
+Чёрно-белая треш-новелла. Главы 1–3.
 
-## Запуск
+## Играть онлайн (GitHub Pages)
+
+После пуша в `CRACKeH/garage-vn` сайт будет здесь:
+
+**https://crackeh.github.io/garage-vn/**
+
+## Запуск локально
 
 ```bash
 npm install
 npm run dev
 ```
 
-Открой адрес из терминала (обычно `http://localhost:5173`).
+## Деплой на GitHub Pages
+
+```bash
+gh auth login
+gh repo create garage-vn --public --source=. --remote=origin --push
+```
+
+В GitHub → **Settings → Pages → Source: GitHub Actions**.  
+Workflow `.github/workflows/deploy-pages.yml` задеплоит сам после пуша в `master`.
 
 ## Управление
 
-- **Клик / Пробел / → / Enter** — дальше / дописать текст
+- **Клик / Пробел / → / Enter** — дальше
 - **Esc** — в меню
-- В конце главы — выбор из трёх вариантов
 
 ## Структура
 
-- `public/chapter01/`, `public/chapter02/`, `public/chapter03/` — CG кадры
-- `src/data/chapter01.ts`, `chapter02.ts`, `chapter03.ts` — тексты сцен
-- `src/components/` — UI новеллы
-- `script/` — литературный сценарий
+- `public/chapter01|02|03/` — CG
+- `src/data/chapter*.ts` — тексты
+- `script/` — сценарий
