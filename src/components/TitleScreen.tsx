@@ -7,6 +7,14 @@ type Props = {
 export function TitleScreen({ onStart }: Props) {
   return (
     <div className="screen title-screen">
+      <img
+        className="title-bg"
+        src={`${import.meta.env.BASE_URL}title-bg.png?v=all4`}
+        alt=""
+        aria-hidden
+        draggable={false}
+      />
+      <div className="title-bg-shade" aria-hidden />
       <div className="ink-noise" aria-hidden />
       <div className="title-frame">
         <p className="title-kicker">visual novel</p>
