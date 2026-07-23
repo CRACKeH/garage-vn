@@ -2,22 +2,16 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-REPO_NAME="garage-vn"
-OWNER="${GITHUB_USER:-CRACKeH}"
+echo "Собираю dist…"
+npm ci
+npm run build
 
-if ! command -v gh >/dev/null 2>&1; then
-  echo "Установи GitHub CLI: brew install gh"
-  exit 1
-fi
+echo "Публикую ветку gh-pages…"
+npx --yes gh-pages@6 -d dist -b gh-pages
 
-gh auth status || gh auth login
-
-if ! git remote get-url origin >/dev/null 2>&1; then
-  gh repo create "$REPO_NAME" --public --source=. --remote=origin --push
-else
-  git push -u origin HEAD
-fi
-
-echo "Включи Pages: https://github.com/${OWNER}/${REPO_NAME}/settings/pages"
-echo "Source → GitHub Actions"
-echo "Сайт: https://$(echo "$OWNER" | tr '[:upper:]' '[:lower:]').github.io/${REPO_NAME}/"
+echo
+echo "В GitHub → Settings → Pages:"
+echo "  Source: Deploy from a branch"
+echo "  Branch: gh-pages / (root)"
+echo
+echo "Сайт: https://crackeh.github.io/garage-vn/"

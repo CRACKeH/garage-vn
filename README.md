@@ -17,14 +17,24 @@ npm run dev
 
 ## Деплой на GitHub Pages
 
+Важно: Pages должен отдавать **сборку** (`dist`), а не исходники с `master`.
+Иначе в консоли будет `GET /src/main.tsx 404`.
+
+### Вариант A — одной командой локально
+
 ```bash
-gh auth login
-gh repo create garage-vn --public --source=. --remote=origin --push
+npm run build
+npx gh-pages -d dist -b gh-pages
 ```
 
-В GitHub → **Settings → Pages → Source: GitHub Actions**.  
-Workflow `.github/workflows/deploy-pages.yml` задеплоит сам после пуша в `master`.
+Потом: **Settings → Pages → Branch: `gh-pages` / root**
 
+### Вариант B — через GitHub Actions
+
+Пуш в `master` запускает workflow, который публикует `dist` в `gh-pages`.
+В Settings → Pages тоже выбери ветку **`gh-pages`**.
+
+Сайт: **https://crackeh.github.io/garage-vn/**
 ## Управление
 
 - **Клик / Пробел / → / Enter** — дальше
